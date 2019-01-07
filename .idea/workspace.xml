@@ -14,6 +14,7 @@
     <session id="1000799324">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -21,23 +22,25 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="md" value="1" />
-          <entry key="py" value="1" />
+          <entry key="py" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Markdown" value="1" />
-          <entry key="Python" value="1" />
+          <entry key="Python" value="2" />
+          <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="784" />
+          <entry key="py" value="2194" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="784" />
+          <entry key="Python" value="793" />
+          <entry key="Scratch" value="1401" />
         </counts>
       </usages-collector>
     </session>
@@ -47,13 +50,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/quick_sort.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+            <state relative-caret-position="119">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
               <folding>
-                <marker date="1546817422603" expanded="true" signature="21:22" ph="..." />
-                <marker date="1546817422603" expanded="true" signature="110:111" ph="..." />
-                <marker date="1546817422603" expanded="true" signature="325:326" ph="..." />
-                <marker date="1546817422603" expanded="true" signature="325:331" ph="..." />
+                <marker date="1546818910140" expanded="true" signature="21:22" ph="..." />
+                <marker date="1546818910140" expanded="true" signature="110:111" ph="..." />
+                <marker date="1546818910140" expanded="true" signature="325:326" ph="..." />
+                <marker date="1546818910140" expanded="true" signature="325:331" ph="..." />
               </folding>
             </state>
           </provider>
@@ -75,6 +78,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/quick_sort.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py" />
       </list>
     </option>
   </component>
@@ -105,6 +109,7 @@
   <component name="PropertiesComponent">
     <property name="ToolWindowPython Console.ShowToolbar" value="false" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -119,7 +124,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.scratch_5">
     <configuration name="quick_sort" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="cci" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,8 +146,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="scratch_5" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="cci" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.quick_sort" />
+      <item itemvalue="Python.scratch_5" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.scratch_5" />
         <item itemvalue="Python.quick_sort" />
       </list>
     </recent_temporary>
@@ -164,7 +195,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49862638" visible="true" weight="0.026692709" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49862638" weight="0.09830729" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50137365" side_tool="true" weight="0.087890625" />
       <window_info anchor="bottom" id="Version Control" order="0" />
@@ -181,7 +212,7 @@
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
       <window_info anchor="right" id="Python Console" order="5" weight="0.40625" />
-      <window_info active="true" anchor="right" id="Run" order="6" visible="true" weight="0.4596354" />
+      <window_info anchor="right" id="Run" order="6" weight="0.44140625" />
       <window_info anchor="right" id="Terminal" order="7" weight="0.4674479" />
     </layout>
   </component>
@@ -197,15 +228,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="31" />
+          <folding>
+            <marker date="1546820026289" expanded="true" signature="259:702" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/quick_sort.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="42" column="51" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+        <state relative-caret-position="119">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding>
-            <marker date="1546817422603" expanded="true" signature="21:22" ph="..." />
-            <marker date="1546817422603" expanded="true" signature="110:111" ph="..." />
-            <marker date="1546817422603" expanded="true" signature="325:326" ph="..." />
-            <marker date="1546817422603" expanded="true" signature="325:331" ph="..." />
+            <marker date="1546818910140" expanded="true" signature="21:22" ph="..." />
+            <marker date="1546818910140" expanded="true" signature="110:111" ph="..." />
+            <marker date="1546818910140" expanded="true" signature="325:326" ph="..." />
+            <marker date="1546818910140" expanded="true" signature="325:331" ph="..." />
           </folding>
         </state>
       </provider>
