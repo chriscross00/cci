@@ -1,6 +1,18 @@
 #test
-#https://en.wikipedia.org/wiki/Dynamic_array#Geometric_expansion_and_amortized_cost
-#https://docs.python.org/3/tutorial/datastructures.html
 #https://www.geeksforgeeks.org/implementation-of-dynamic-array-in-python/
 
-print('hi')
+
+list = list(range(10))
+
+list.extend(range(20, 30))
+
+list.remove(0)
+#print(list)
+
+#print('hi')
+
+greet = ['sup', 'hi', 'hello', 'greetings', 'cheers']
+
+op = greet.index('ho')
+
+#print(op)
