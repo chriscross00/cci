@@ -1,18 +1,27 @@
-#test
-#https://www.geeksforgeeks.org/implementation-of-dynamic-array-in-python/
+#array left rotation
+
+#I'm thinking we append the left-most element to the end and append the
+# element. I'll need a temp variable to store the left-most element.
 
 
-list = list(range(10))
 
-list.extend(range(20, 30))
+a = [1,2,3,4,5]
+d = 4
 
-list.remove(0)
-#print(list)
+def left_rotate(array, rotations):
+    i = 0
+    while i != rotations:
+        temp = array.pop(0)
+        array = array.append(temp)
+        i += 1
 
-#print('hi')
+left_rotate(a, d)
 
-greet = ['sup', 'hi', 'hello', 'greetings', 'cheers']
 
-op = greet.index('ho')
+a = [1,2,3]
+d =
 
-#print(op)
+def test(a, k):
+    return a[k:] + a[:k]
+
+test(a,d)
