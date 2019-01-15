@@ -1,13 +1,20 @@
 def bs(list):
-    for high in range(len(list)-1, 0, -1):
-        for i in range(high):
-            if list[i]>list[i+1]:
-                list[i], list[i+1] = list[i+1], list[i]
+    for i in range(len(list)-1, 0, -1):
+        for j in range(i):
+            if list[j] > list[j+1]:
+                list[j],list[j + 1] = list[j + 1],list[j]
 
     return list
 
-
-
-a = [2,8,9,2,8,5,2,85,0,9,1,4]
-
+a = [87,42,32,52,90,22,74,25,90]
 print(bs(a))
+
+
+def variable(a, *mytuple):
+    print(a)
+    for var in mytuple:
+        print(var)
+
+    return
+
+variable(10, 20, 50, 90)
