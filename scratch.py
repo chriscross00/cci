@@ -9,12 +9,18 @@ def bs(list):
 a = [87,42,32,52,90,22,74,25,90]
 print(bs(a))
 
+def binarysearch(list, val):
+    lo, hi = 0, len(list)-1
+    while lo <= hi:
+        mid = (lo+hi)//2
+        if list[mid]<val:
+            lo = mid+1
+        elif val<list[mid]:
+            hi = mid-1
+        else:
+            return True
 
-def variable(a, *mytuple):
-    print(a)
-    for var in mytuple:
-        print(var)
+    return False
 
-    return
-
-variable(10, 20, 50, 90)
+b = bs(a)
+print(binarysearch(b, 2))

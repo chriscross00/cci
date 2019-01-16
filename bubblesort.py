@@ -9,3 +9,5 @@ def bubblesort(list):
 a = [50,28,98,52,95,10,7,0,26]
 
 print(bubblesort(a))
+
+
