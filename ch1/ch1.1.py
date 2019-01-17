@@ -13,16 +13,17 @@ def unique_char(string):
     letters = {}
     for i in string:
         if i in letters.keys():
-            letters[i] += 1
+            print('Not unique')
+            break
         else:
             letters[i] = 1
 
-    return print(letters)
 
 
-test = 'aabbb'
 
-#unique_char(test)
+test = 'abcddd'
+
+unique_char(test)
 
 
 # Without any additional data structures

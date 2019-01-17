@@ -7,7 +7,7 @@ def bs(list):
     return list
 
 a = [87,42,32,52,90,22,74,25,90]
-print(bs(a))
+
 
 def binarysearch(list, val):
     lo, hi = 0, len(list)-1
@@ -22,5 +22,15 @@ def binarysearch(list, val):
 
     return False
 
-b = bs(a)
-print(binarysearch(b, 2))
+
+
+
+def bubble(list):
+    for i in range(len(list)-1,0,-1):
+        for j in range(i):
+            if list[j] > list[j+1]:
+                list[j], list[j+1] = list[j+1], list[j]
+
+    return list
+
+print(bubble(a))
