@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73a45d48-7d9c-42f8-865a-1967ea7477de" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/ch1/ch1.2.py" beforeDir="false" afterPath="$PROJECT_DIR$/ch1/ch1.2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scratch.py" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/str_permutations.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="758">
-              <caret line="57" column="26" lean-forward="true" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+            <state relative-caret-position="248">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/str_permutations.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -61,6 +69,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>str</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -75,6 +88,7 @@
         <option value="$PROJECT_DIR$/ch1/ch1.1.py" />
         <option value="$PROJECT_DIR$/ch1/ch1.2.py" />
         <option value="$PROJECT_DIR$/scratch.py" />
+        <option value="$PROJECT_DIR$/str_permutations.py" />
       </list>
     </option>
   </component>
@@ -125,28 +139,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.ch1.2">
-    <configuration name="bubblesort" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="cci" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bubblesort.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.str_permutations">
     <configuration name="ch1.1 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="cci" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -231,20 +224,41 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="str_permutations" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="cci" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/str_permutations.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.scratch" />
-      <item itemvalue="Python.bubblesort" />
       <item itemvalue="Python.ch1.1" />
       <item itemvalue="Python.ch1.1 (1)" />
       <item itemvalue="Python.ch1.2" />
+      <item itemvalue="Python.str_permutations" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.str_permutations" />
         <item itemvalue="Python.ch1.2" />
         <item itemvalue="Python.ch1.1 (1)" />
         <item itemvalue="Python.scratch" />
         <item itemvalue="Python.ch1.1" />
-        <item itemvalue="Python.bubblesort" />
       </list>
     </recent_temporary>
   </component>
@@ -282,7 +296,7 @@
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
       <window_info anchor="right" id="Python Console" order="5" weight="0.43854168" />
-      <window_info active="true" anchor="right" id="Run" order="6" visible="true" weight="0.48541668" />
+      <window_info anchor="right" id="Run" order="6" weight="0.48541668" />
       <window_info anchor="right" id="Terminal" order="7" weight="0.46666667" />
     </layout>
   </component>
@@ -329,8 +343,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="758">
-          <caret line="57" column="26" lean-forward="true" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+        <state relative-caret-position="248">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/str_permutations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
