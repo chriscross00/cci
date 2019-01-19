@@ -10,7 +10,23 @@ adjacency_matrix = {1: [2, 3], 2: [4, 5],
                     6: [7], 7: []}
 
 
-def dfs_stack()
+def dfs_iterative(graph, start):
+    stack, path = [start], []
+
+    while stack:
+        vertex = stack.pop()
+        if vertex in path:
+            continue
+        path.append(vertex)
+        for neighbor in graph[vertex]:
+            stack.append(neighbor)
+
+    return path
+
+
+#print(dfs_iterative(adjacency_matrix, 1))
+
+
 
 def dfs_path(graph, start, goal):
 
@@ -24,7 +40,7 @@ def dfs_path(graph, start, goal):
             else:
                 stack.append((next, path + [next]))
 
-print(list(dfs_path(graph, 'A', 'F')))
+#print(list(dfs_path(graph, 'A', 'F')))
 
 
 
@@ -38,7 +54,18 @@ def dfs_resursive(graph, vertex, path = []):
     return path
 
 
-print(dfs_resursive(adjacency_matrix, 1))
+#print(dfs_resursive(adjacency_matrix, 1))
 
+def test(graph, start):
+    stack, path = [start], []
 
+    while stack:
+        vertex = stack.pop()
+        if vertex in path:
+            continue
+        path.append(vertex)
+        for neighbor in graph[vertex]:
+            stack.append(neighbor)
+    return path
 
+print(test(adjacency_matrix, 1))
