@@ -34,3 +34,26 @@ def bubble(list):
     return list
 
 print(bubble(a))
+
+NO_OF_CHARS = 256
+
+
+# Function to check whether two strings are
+# Permutation of each other
+def arePermutation(str1):
+    # Create two count arrays and initialize
+    # all values as 0
+    count1 = [0] * NO_OF_CHARS
+
+    # For each character in input strings,
+    # increment count in the corresponding
+    # count array
+    for i in str1:
+        count1[ord(i)] += 1
+
+    return count1
+
+top = 'stop'
+
+print(arePermutation(top))
+
