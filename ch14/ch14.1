@@ -1,0 +1,6 @@
+SELECT T.TenantID, T.TenantName, COUNT(TA.ApartmentID) AS NumRented
+FROM Tenants as T
+JOIN TenantApartments AS TA
+ON T.TenantID = TA.TenantID
+GROUP BY T.TenantID
+HAVING NumRented > 1;
