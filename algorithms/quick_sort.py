@@ -38,6 +38,8 @@ def partition(list, first, last):
 
     return right
 
+# https://www.youtube.com/watch?v=COk73cpQbFQ&t=0s&index=8&list
+# =PL2_aWCzGMAwKedT2KfDMB9YA5DgASZb3U
 
 
 test = [54,26,932,17,9,31,44,55,20,25,27,29,90,90.5]
