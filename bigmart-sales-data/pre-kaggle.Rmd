@@ -1,0 +1,175 @@
+---
+title: "big_mart"
+author: "Christoper Chan"
+date: "January 26, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Problem:
+Predit the amount of sales of an item.
+
+Approach:
+1. Read in and clean data
+2. EDA
+3. Feature engineering
+4. Run a simple linear regression on it
+    a) Run a lasso regression to get only the most relevant data
+5. Visualize final results
+
+Hypothesis:
+1. I think that Item_Visibility and Outlet_Location_Type will have the most predictive power.
+2. Item_Identifier will have zero predictive power, it is simply a internal identifier.
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(glmnet)
+```
+
+## 1
+
+Reading in the data. Reading in the data with read.csv set the categorical variables correctly as factors, while read_csv set them to char.
+```{r}
+train <- read.csv('Train.csv')
+test <- read.csv('Test.csv')
+
+head(train)
+```
+
+Creating a combined df so that I can clean/eda on all the available data
+```{r}
+test <- mutate(test, Item_Outlet_Sales = 0)
+
+dim(train)
+dim(test)
+data <- rbind(train, test)
+
+dim(data)
+str(data)
+```
+
+```{r}
+summary(data)
+```
+
+I want to see if we have redundant levels for categorical variables. In this case we do, in Item_Fat_Content we have 3 types of low fat and 2 types of regular. I'll standardize it to 'Low Fat' and 'Regular'
+```{r}
+sapply(data[,2:ncol(data)], levels)
+```
+
+```{r}
+data <- data %>%
+    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'LF', 'Low Fat')) %>%
+    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'low fat', 'Low Fat')) %>%
+    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'reg', 'Regular')) %>%
+    droplevels()
+```
+
+Finding missing values. Item weight has 2439 NA. Outlet_Size has 2410 blank instances. Every other variable does not have any missing values. In the grand scheme of things I don't think these variables will have much predictive power so I won't bother to fill them in.
+```{r}
+sapply(data, function(x) sum(is.na(x)))
+sapply(data, function(x) sum(x == ''))
+```
+
+To do:
+Use the probabilities of Outlet_Location_Type and Outlet_Type to classify the Outlet_Size.
+```{r}
+ggplot(data, aes(Outlet_Size, Outlet_Type)) +
+    geom_point()
+```
+
+
+## 2
+
+Getting a better sense of the range of data
+```{r}
+sapply(data, function(x) n_distinct(x))
+summary(data)
+```
+
+```{r}
+ggplot(data, aes(Item_Visibility, Item_Outlet_Sales)) + 
+    geom_point(size = 0.75)
+```
+
+```{r}
+ggplot(train, aes(Item_Type, Item_Outlet_Sales)) +
+    geom_bar(stat='identity') +
+    theme(axis.text.x = element_text(angle=60, vjust=0.75))
+```
+
+Are certain Item_Type given more visibilty than others? No clear connection
+```{r}
+ggplot(train, aes(Item_Type, Item_Visibility)) +
+    geom_point(size=0.75) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.8))
+```
+
+```{r}
+ggplot(train, aes(Item_Visibility, Item_Outlet_Sales, color = Item_Type)) + 
+    geom_point(size = 0.75)
+```
+
+
+# 3 Feature Engineering
+
+Having an item with zero Item_Visibility that has sales makes little sense. I'm going to make the assumption that people aren't buying items that are stored in the back of the store. Running with Item_Outlet_Sales == 0 yields 0 results, so all the cases of Item_Visibility are beening bought. We'll set the Item_Visibilty for equal to the mean of Item_Visibility.
+```{r}
+zero_viz <- train %>%
+    filter(Item_Visibility == 0 & Item_Outlet_Sales > 0)
+
+avg <- train %>%
+    summarize(mean(Item_Visibility))
+
+train <- train %>%
+    mutate(Item_Visibility = replace(Item_Visibility, Item_Visibility == 0, 2)) %>%
+    mutate(Item_Visibility = as.double(Item_Visibility))
+
+head(train)
+```
+
+Possible to condense the Item_Type down into 3 categories; FD-Food, NC-Non-Consumable, DR:Drink. However I'll hold off on this and see how well the model does. I'm not quite sure how necessary this is.
+
+```{r}
+zero_vis <- train[train$Item_Visibility] == 0
+```
+
+
+Okay, so I am missing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
