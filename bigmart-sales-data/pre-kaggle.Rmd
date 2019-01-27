@@ -9,6 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## TO DO:
+1. Replace all NA in item_Weight with the total mean. it doesn't change too much. 
+2. Create visualizes
+3. Model the data
+
+
+
 Problem:
 Predit the amount of sales of an item.
 
@@ -27,6 +34,7 @@ Hypothesis:
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(glmnet)
+library(gridExtra)
 ```
 
 ## 1
@@ -68,7 +76,7 @@ data <- data %>%
     droplevels()
 ```
 
-Finding missing values. Item weight has 2439 NA. Outlet_Size has 2410 blank instances. Every other variable does not have any missing values. In the grand scheme of things I don't think these variables will have much predictive power so I won't bother to fill them in.
+Finding missing values. Item weight has 2439 NA. Outlet_Size has 4106 blank instances. Every other variable does not have any missing values. In the grand scheme of things I don't think these variables will have much predictive power so I won't bother to fill them in.
 ```{r}
 sapply(data, function(x) sum(is.na(x)))
 sapply(data, function(x) sum(x == ''))
@@ -76,9 +84,64 @@ sapply(data, function(x) sum(x == ''))
 
 To do:
 Use the probabilities of Outlet_Location_Type and Outlet_Type to classify the Outlet_Size.
+Figuring out what to do with the missing values for the Outlet_Size is tricky. It represents a pretty large chunk of the instances. Breaking the data down into levels for each predictor gives us a much clear picture of what's going on. You can use Baye's theorem here, but intuition will be enough here.
 ```{r}
-ggplot(data, aes(Outlet_Size, Outlet_Type)) +
+data %>%
+    group_by(Outlet_Location_Type, Outlet_Type, Outlet_Size) %>%
+    count()
+```
+
+Fixing the blank Outlet_Size. Output verifies that it worked, we no longer have any blank values.
+```{r}
+data <- data %>%
+    mutate(Outlet_Size = replace(Outlet_Size, Outlet_Size == '' & Outlet_Location_Type == 'Tier 2', 'Small')) %>%
+    mutate(Outlet_Size = replace(Outlet_Size, Outlet_Size == '' & Outlet_Location_Type == 'Tier 3', 'Small'))
+
+sapply(data, function(x) sum(x == ''))
+```
+
+
+
+```{r}
+ggplot(data, aes(Outlet_Type, Outlet_Location_Type, color=Outlet_Size)) +
     geom_point()
+```
+
+Now we have to address the NA in Item_Weight. Looking at the distribution of the NA among Item_Types there seems to be some Item_Types that have a larger amount of NA. Note: these values are not normalized so very little inferences can be drawn from this histogram. Instead I'll take the mean of each Item_Type and replace the NA for that type with the mean.
+```{r}
+a <- data %>%
+    group_by(Item_Type) %>%
+    filter(is.na(Item_Weight)) %>%
+    count()
+
+ggplot(a, aes(Item_Type, n)) +
+    geom_bar(stat = 'identity') +
+    theme(axis.text.x = element_text(angle=75, vjust=0.7))
+
+b <- data %>%
+    group_by(Item_Type) %>%
+    summarise_at(vars(Item_Weight), funs(mean(., na.rm=T)))
+
+b
+```
+
+
+```{r}
+test_c <- data %>%
+    filter(is.na(Item_Weight)) %>%
+    mutate(Item_Weight = replace(Item_Weight, b$Item_Type == Item_Type, b$Item_Weight))
+
+```
+```{r}
+```
+
+```{r}
+a <- ggplot(data, aes(Outlet_Size, Outlet_Location_Type)) +
+    geom_point()
+b <- ggplot(data, aes(Outlet_Size, Outlet_Type)) +
+    geom_point()
+
+grid.arrange(a, b, ncol=2)
 ```
 
 
