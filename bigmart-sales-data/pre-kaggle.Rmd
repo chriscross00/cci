@@ -33,7 +33,6 @@ Hypothesis:
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(glmnet)
-library(GGally)
 ```
 
 ## 1 Read and clean data
@@ -81,8 +80,7 @@ sapply(data, function(x) sum(is.na(x)))
 sapply(data, function(x) sum(x == ''))
 ```
 
-To do:
-Use the probabilities of Outlet_Location_Type and Outlet_Type to classify the Outlet_Size.
+
 Figuring out what to do with the missing values for the Outlet_Size is tricky. It represents a pretty large chunk of the instances. Breaking the data down into levels for each predictor gives us a much clear picture of what's going on. You can use Baye's theorem here, but intuition will be enough here.
 ```{r}
 data %>%
@@ -204,7 +202,6 @@ store_lm <- lm(Item_Outlet_Sales~.-Item_Identifier -Outlet_Identifier, train)
 
 summary(store_lm)
 
-par(mfrow <- c(2,2))
 plot(store_lm)
 ```
 
@@ -214,14 +211,37 @@ confint(store_lm)
 
 
 ```{r}
-cor_df <- subset(data, select = -c(Item_Identifier, Item_Type, Outlet_Identifier))
+cor_df <- data %>%
+    select_if(is.numeric)
 
-cor(cor_df[,1:ncol(cor_df)])
+head(cor_df)
+
+```
+
+Creating lambdas which we'll run lasso regression over. Prepparing the data for lasso regression
+```{r}
+grid <- 10^seq(10, -2, length=100)
+```
+
+```{r}
+x <- subset(data, select = -c(Item_Identifier, Outlet_Identifier, Item_Outlet_Sales))
+y <- as.tibble(data$Item_Outlet_Sales)
+
+head(y)
+
+# store_lasso <- glmnet(x, y, lambda=grid)
 ```
 
 
+https://stackoverflow.com/questions/8457624/r-glmnet-list-object-cannot-be-coerced-to-type-double
 
-
+To do:
+1. Finish the model
+    a) Create a model.matrix
+    b) Find the best lambda
+    c) Run ridge regression
+2. Change year to years open
+3. Validate the model
 
 
 
