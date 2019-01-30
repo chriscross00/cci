@@ -10,9 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## TO DO:
-1. Replace all NA in item_Weight with the total mean. it doesn't change too much. 
-2. Create visualizes
-3. Model the data
+1. Create visualizes
+2. Model the data
 
 
 
@@ -34,10 +33,10 @@ Hypothesis:
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(glmnet)
-library(gridExtra)
+library(GGally)
 ```
 
-## 1
+## 1 Read and clean data
 
 Reading in the data. Reading in the data with read.csv set the categorical variables correctly as factors, while read_csv set them to char.
 ```{r}
@@ -121,32 +120,17 @@ ggplot(a, aes(Item_Type, n)) +
 b <- data %>%
     group_by(Item_Type) %>%
     summarise_at(vars(Item_Weight), funs(mean(., na.rm=T)))
-
-b
 ```
-
-
+Oh my, so after hours of trying to figure out how to replace all the NAs with the means for that group I came across the answer. 
 ```{r}
-test_c <- data %>%
-    filter(is.na(Item_Weight)) %>%
-    mutate(Item_Weight = replace(Item_Weight, b$Item_Type == Item_Type, b$Item_Weight))
+impute_mean <- function(x) replace(x, is.na(x), mean(x, na.rm = T))
 
+data <- data %>%
+    group_by(Item_Type) %>%
+    mutate(Item_Weight = impute_mean(Item_Weight))
 ```
-```{r}
-```
-
-```{r}
-a <- ggplot(data, aes(Outlet_Size, Outlet_Location_Type)) +
-    geom_point()
-b <- ggplot(data, aes(Outlet_Size, Outlet_Type)) +
-    geom_point()
-
-grid.arrange(a, b, ncol=2)
-```
-
 
 ## 2
-
 Getting a better sense of the range of data
 ```{r}
 sapply(data, function(x) n_distinct(x))
@@ -159,15 +143,15 @@ ggplot(data, aes(Item_Visibility, Item_Outlet_Sales)) +
 ```
 
 ```{r}
-ggplot(train, aes(Item_Type, Item_Outlet_Sales)) +
+ggplot(data, aes(Item_Type, Item_Outlet_Sales)) +
     geom_bar(stat='identity') +
     theme(axis.text.x = element_text(angle=60, vjust=0.75))
 ```
 
 Are certain Item_Type given more visibilty than others? No clear connection
 ```{r}
-ggplot(train, aes(Item_Type, Item_Visibility)) +
-    geom_point(size=0.75) +
+ggplot(data, aes(Item_Type, Item_Visibility)) +
+    geom_boxplot() +
     theme(axis.text.x = element_text(angle=90, vjust=0.8))
 ```
 
@@ -181,34 +165,59 @@ ggplot(train, aes(Item_Visibility, Item_Outlet_Sales, color = Item_Type)) +
 
 Having an item with zero Item_Visibility that has sales makes little sense. I'm going to make the assumption that people aren't buying items that are stored in the back of the store. Running with Item_Outlet_Sales == 0 yields 0 results, so all the cases of Item_Visibility are beening bought. We'll set the Item_Visibilty for equal to the mean of Item_Visibility.
 ```{r}
-zero_viz <- train %>%
+zero_viz <- data %>%
     filter(Item_Visibility == 0 & Item_Outlet_Sales > 0)
 
-avg <- train %>%
+avg <- data %>%
     summarize(mean(Item_Visibility))
 
-train <- train %>%
+data <- data %>%
     mutate(Item_Visibility = replace(Item_Visibility, Item_Visibility == 0, 2)) %>%
     mutate(Item_Visibility = as.double(Item_Visibility))
 
-head(train)
+summary(data)
 ```
 
 Possible to condense the Item_Type down into 3 categories; FD-Food, NC-Non-Consumable, DR:Drink. However I'll hold off on this and see how well the model does. I'm not quite sure how necessary this is.
 
+
+## Model
+
+Creating the train/test split again
 ```{r}
-zero_vis <- train[train$Item_Visibility] == 0
+train <- data[1:8523,]
+test <- data[8524:nrow(data),]
+```
+
+Baseline model
+```{r}
+mean_sales <- mean(train$Item_Outlet_Sales)
+
+base1 <- tibble(test$Item_Identifier, test$Outlet_Identifier, 'Item_Outlet_Sales' = mean_sales)
+base1
 ```
 
 
-Okay, so I am missing
+Baseline linear model
+```{r}
+store_lm <- lm(Item_Outlet_Sales~.-Item_Identifier -Outlet_Identifier, train)
+
+summary(store_lm)
+
+par(mfrow <- c(2,2))
+plot(store_lm)
+```
+
+```{r}
+confint(store_lm)
+```
 
 
+```{r}
+cor_df <- subset(data, select = -c(Item_Identifier, Item_Type, Outlet_Identifier))
 
-
-
-
-
+cor(cor_df[,1:ncol(cor_df)])
+```
 
 
 
