@@ -33,11 +33,65 @@ test2 = [90, 24, 16, 25, 95, 2, 24, 59]
 
 
 
-b = [1,2,3,4,5,6,7]
+b = [1,2,3,4,5,6]
 
-def test(list):
-    for i in range(-1,2):
-        print(i)
+class Stack():
+
+    def __init__(self):
+        self.item = []
+
+    def is_empty(self):
+        return self.item == []
+
+    def push(self, item):
+        self.item.append(item)
+
+    def pop(self):
+        self.item.pop()
+
+    def peek(self):
+        return self.item[len(self.item)-1]
+
+    def size(self):
+        return len(self.item)
 
 
-test(b)
+
+
+def merge_sort(list):
+
+    if len(list) > 1:
+        mid = len(list)//2
+        L_list = list[:mid]
+        R_list = list[mid:]
+
+        merge_sort(L_list)
+        merge_sort(R_list)
+        merge(L_list, R_list, list)
+    return list
+
+
+def merge(L_list, R_list, list):
+
+    x = y = z = 0
+
+    while x < len(L_list) and y < len(R_list):
+        if L_list[x] < R_list[y]:
+            list[z] = L_list[x]
+            z += 1
+            x += 1
+        else:
+            list[z] = R_list[y]
+            z += 1
+            y += 1
+    while x < len(L_list):
+        list[z] = L_list[x]
+        z += 1
+        x += 1
+    while y < len(R_list):
+        list[z] = R_list[y]
+        z += 1
+        y += 1
+    return list
+
+print(merge_sort(test2))

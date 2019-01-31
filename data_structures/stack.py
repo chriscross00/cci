@@ -31,7 +31,9 @@ pancake.push('cat')
 pancake.push('rabbit')
 pancake.push('horse')
 
-pancake.pop()
 print(pancake.peek())
-print(pancake.size())
+
+
+
+
 
