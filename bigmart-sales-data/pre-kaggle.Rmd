@@ -66,7 +66,7 @@ I want to see if we have redundant levels for categorical variables. In this cas
 sapply(data[,2:ncol(data)], levels)
 ```
 
-```{r}
+```{r, message=FALSE}
 data <- data %>%
     mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'LF', 'Low Fat')) %>%
     mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'low fat', 'Low Fat')) %>%
@@ -158,6 +158,15 @@ ggplot(train, aes(Item_Visibility, Item_Outlet_Sales, color = Item_Type)) +
     geom_point(size = 0.75)
 ```
 
+Note Remove Outlet_Estblishment_Year if not important.
+Changing year to years since started.
+```{r}
+data <- data %>%
+    mutate(Years_Open = 2013 -Outlet_Establishment_Year)
+data <- data[, c(1,2,3,4,5,6,7,13,9,10,11,12)]
+
+head(data)
+```
 
 # 3 Feature Engineering
 
@@ -180,11 +189,30 @@ Possible to condense the Item_Type down into 3 categories; FD-Food, NC-Non-Consu
 
 
 ## Model
+```{r}
+mse <- function(x, y) {
+    mean((x - y)^2)
+}
+```
+
 
 Creating the train/test split again
 ```{r}
+set.seed(1)
 train <- data[1:8523,]
-test <- data[8524:nrow(data),]
+
+train_samp <- sample(1:nrow(train), nrow(train)*0.7)
+
+test <- train[-train_samp,]
+test_x <- test[,-c(1,7,12)]
+test_y <- test[,12]
+
+train <- train[train_samp,]
+train_x <- train[,-c(1,7)]
+train_y <- train[,12]
+
+
+real_test <- data[8524:nrow(data),]
 ```
 
 Baseline model
@@ -192,13 +220,15 @@ Baseline model
 mean_sales <- mean(train$Item_Outlet_Sales)
 
 base1 <- tibble(test$Item_Identifier, test$Outlet_Identifier, 'Item_Outlet_Sales' = mean_sales)
-base1
+
+mse_base1 <- mse(base1[,3], test_y)
+cat('MSE of baseline model:', mse_base1)
 ```
 
 
 Baseline linear model
 ```{r}
-store_lm <- lm(Item_Outlet_Sales~.-Item_Identifier -Outlet_Identifier, train)
+store_lm <- lm(Item_Outlet_Sales~., train_x)
 
 summary(store_lm)
 
@@ -213,35 +243,64 @@ confint(store_lm)
 ```{r}
 cor_df <- data %>%
     select_if(is.numeric)
+cor_df <- cor_df[-1]
 
 head(cor_df)
-
+cor(cor_df)
 ```
 
 Creating lambdas which we'll run lasso regression over. Prepparing the data for lasso regression
 ```{r}
+train <- data[1:8523,]
 grid <- 10^seq(10, -2, length=100)
+
+mod_mat <- model.matrix(Item_Outlet_Sales~.,  train)
+
+# train_x_mm <- mod_mat[][train_samp,]
+# train_y_mm <- train_x_mm$Item_Outlet_Sales
+```
+
+
+convert factors to dummy variables
+```{r}
+store_lasso <- glmnet(x, y, lambda=grid)
+
+plot(store_lasso)
 ```
 
 ```{r}
-x <- subset(data, select = -c(Item_Identifier, Outlet_Identifier, Item_Outlet_Sales))
-y <- as.tibble(data$Item_Outlet_Sales)
+store_lasso_cv <- cv.glmnet(x, y)
 
-head(y)
+plot(store_lasso_cv)
+```
 
-# store_lasso <- glmnet(x, y, lambda=grid)
+```{r}
+best_lam <- store_lasso_cv$lambda.min
+cat('Best lambda is:', best_lam)
+
+# cvlasso_pred <- predict(store_lasso, s=best_lam, newx=test_x)
+
+```
+
+To do:
+
+1. Redo the model_mat
+    a)  train and test as row numbers
+    b) x as model matrix with identifier
+    c) y as sales_output
+2. Validate the model
+
+
+```{r}
+library(ISLR)
+Hitters
+
+i <- model.matrix(Salary~., Hitters)
+
+head(i)
 ```
 
 
-https://stackoverflow.com/questions/8457624/r-glmnet-list-object-cannot-be-coerced-to-type-double
-
-To do:
-1. Finish the model
-    a) Create a model.matrix
-    b) Find the best lambda
-    c) Run ridge regression
-2. Change year to years open
-3. Validate the model
 
 
 
@@ -250,11 +309,8 @@ To do:
 
 
 
-
-
-
-
-
+Things I learned:
+lm to some extent fitlers out highly correlated predictors. If I ran years_open and Outlet_Estblishment_year at the same time, Years_Open would become NA because signularities.
 
 
 
