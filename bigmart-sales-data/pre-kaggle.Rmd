@@ -66,13 +66,7 @@ I want to see if we have redundant levels for categorical variables. In this cas
 sapply(data[,2:ncol(data)], levels)
 ```
 
-```{r, message=FALSE}
-data <- data %>%
-    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'LF', 'Low Fat')) %>%
-    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'low fat', 'Low Fat')) %>%
-    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'reg', 'Regular')) %>%
-    droplevels()
-```
+
 
 Finding missing values. Item weight has 2439 NA. Outlet_Size has 4106 blank instances. Every other variable does not have any missing values. In the grand scheme of things I don't think these variables will have much predictive power so I won't bother to fill them in.
 ```{r}
@@ -128,6 +122,8 @@ data <- data %>%
     mutate(Item_Weight = impute_mean(Item_Weight))
 ```
 
+
+
 ## 2
 Getting a better sense of the range of data
 ```{r}
@@ -158,17 +154,17 @@ ggplot(train, aes(Item_Visibility, Item_Outlet_Sales, color = Item_Type)) +
     geom_point(size = 0.75)
 ```
 
-Note Remove Outlet_Estblishment_Year if not important.
-Changing year to years since started.
-```{r}
-data <- data %>%
-    mutate(Years_Open = 2013 -Outlet_Establishment_Year)
-data <- data[, c(1,2,3,4,5,6,7,13,9,10,11,12)]
 
-head(data)
-```
 
 # 3 Feature Engineering
+
+```{r, message=FALSE}
+data <- data %>%
+    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'LF', 'Low Fat')) %>%
+    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'low fat', 'Low Fat')) %>%
+    mutate(Item_Fat_Content = replace(Item_Fat_Content, Item_Fat_Content == 'reg', 'Regular')) %>%
+    droplevels()
+```
 
 Having an item with zero Item_Visibility that has sales makes little sense. I'm going to make the assumption that people aren't buying items that are stored in the back of the store. Running with Item_Outlet_Sales == 0 yields 0 results, so all the cases of Item_Visibility are beening bought. We'll set the Item_Visibilty for equal to the mean of Item_Visibility.
 ```{r}
@@ -185,7 +181,22 @@ data <- data %>%
 summary(data)
 ```
 
+
 Possible to condense the Item_Type down into 3 categories; FD-Food, NC-Non-Consumable, DR:Drink. However I'll hold off on this and see how well the model does. I'm not quite sure how necessary this is.
+
+Note Remove Outlet_Estblishment_Year if not important.
+Changing year to years since started.
+```{r}
+data <- data %>%
+    mutate(Years_Open = 2013 -Outlet_Establishment_Year)
+data <- data[, c(1,2,3,4,5,6,7,13,9,10,11,12)]
+```
+
+Determine the catergory of the item type. I was getting really shit MSE without item_id and outlet id
+```{r}
+data <- data %>%
+    separate(Item_Identifier, c('Item_Category', 'Item_Identifier'), sep=2)
+```
 
 
 ## Model
@@ -193,6 +204,7 @@ Possible to condense the Item_Type down into 3 categories; FD-Food, NC-Non-Consu
 mse <- function(x, y) {
     mean((x - y)^2)
 }
+head(data)
 ```
 
 
@@ -200,17 +212,16 @@ Creating the train/test split again
 ```{r}
 set.seed(1)
 train <- data[1:8523,]
+train_reg <- train
 
 train_samp <- sample(1:nrow(train), nrow(train)*0.7)
 
+
 test <- train[-train_samp,]
-test_x <- test[,-c(1,7,12)]
-test_y <- test[,12]
+test <- test[,-c(2)]
 
 train <- train[train_samp,]
-train_x <- train[,-c(1,7)]
-train_y <- train[,12]
-
+train <- train[,-c(2)]
 
 real_test <- data[8524:nrow(data),]
 ```
@@ -219,20 +230,35 @@ Baseline model
 ```{r}
 mean_sales <- mean(train$Item_Outlet_Sales)
 
-base1 <- tibble(test$Item_Identifier, test$Outlet_Identifier, 'Item_Outlet_Sales' = mean_sales)
+base1 <- tibble(test$Outlet_Identifier, 'Item_Outlet_Sales' = mean_sales)
 
-mse_base1 <- mse(base1[,3], test_y)
+mse_base1 <- mse(base1[,2], test[,12])
 cat('MSE of baseline model:', mse_base1)
 ```
 
 
 Baseline linear model
 ```{r}
-store_lm <- lm(Item_Outlet_Sales~., train_x)
+store_lm <- lm(Item_Outlet_Sales~., train)
 
 summary(store_lm)
 
 plot(store_lm)
+```
+
+```{r}
+testor <- lm(Item_Outlet_Sales ~ Item_MRP + Years_Open + Outlet_Type, train)
+
+summary(testor)
+pray_pred <- predict(testor, newx=test)
+mse(pray_pred, test[,12])
+```
+
+```{r}
+lm_pred <- predict(store_lm, newx=test)
+
+mse_lm <- mse(lm_pred, test[,12])
+cat('Linear model MSE: ', mse_lm)
 ```
 
 ```{r}
@@ -251,25 +277,27 @@ cor(cor_df)
 
 Creating lambdas which we'll run lasso regression over. Prepparing the data for lasso regression
 ```{r}
-train <- data[1:8523,]
+train_reg <- data[1:8523,]
 grid <- 10^seq(10, -2, length=100)
 
-mod_mat <- model.matrix(Item_Outlet_Sales~.,  train)
+mod_mat <- model.matrix(Item_Outlet_Sales~.-Item_Identifier,  train_reg)
 
-# train_x_mm <- mod_mat[][train_samp,]
-# train_y_mm <- train_x_mm$Item_Outlet_Sales
+train_reg <- mod_mat[train_samp,]
+train_y <- train$Item_Outlet_Sales
+test_reg <- mod_mat[-train_samp,]
+test_y <- test$Item_Outlet_Sales
 ```
 
 
 convert factors to dummy variables
 ```{r}
-store_lasso <- glmnet(x, y, lambda=grid)
+store_lasso <- glmnet(train_reg, train_y, lambda=grid)
 
 plot(store_lasso)
 ```
 
 ```{r}
-store_lasso_cv <- cv.glmnet(x, y)
+store_lasso_cv <- cv.glmnet(train_reg, train_y)
 
 plot(store_lasso_cv)
 ```
@@ -278,27 +306,11 @@ plot(store_lasso_cv)
 best_lam <- store_lasso_cv$lambda.min
 cat('Best lambda is:', best_lam)
 
-# cvlasso_pred <- predict(store_lasso, s=best_lam, newx=test_x)
+cvlasso_pred <- predict(store_lasso, s=best_lam, newx=test_reg)
 
+cat('Lasso regularizaion MSE:', mse(cvlasso_pred, test_y))
 ```
 
-To do:
-
-1. Redo the model_mat
-    a)  train and test as row numbers
-    b) x as model matrix with identifier
-    c) y as sales_output
-2. Validate the model
-
-
-```{r}
-library(ISLR)
-Hitters
-
-i <- model.matrix(Salary~., Hitters)
-
-head(i)
-```
 
 
 
