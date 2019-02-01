@@ -311,13 +311,23 @@ cvlasso_pred <- predict(store_lasso, s=best_lam, newx=test_reg)
 cat('Lasso regularizaion MSE:', mse(cvlasso_pred, test_y))
 ```
 
+```{r}
+cvlasso_coef <- predict(store_lasso, type='coefficients', s=best_lam)
+cvlasso_coef
 
+```
 
+```{r}
+a <- summary(cvlasso_coef)
+b <- tibble(Factor = rownames(cvlasso_coef)[a$i],
+       Coefficient = a$x)
+b <- b %>%
+    mutate(Factor = fct_reorder(Factor, Coefficient))
+ggplot(b, aes(Factor, Coefficient)) +
+    geom_bar(stat='identity') +
+    theme(axis.text.x = element_text(angle=90, vjust=0.75))
 
-
-
-
-
+```
 
 
 
