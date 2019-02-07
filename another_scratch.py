@@ -35,27 +35,26 @@ test2 = [90, 24, 16, 25, 95, 2, 24, 59]
 
 b = [1,2,3,4,5,6]
 
+# stack -LIFO
 class Stack():
 
     def __init__(self):
-        self.item = []
+        self.items = []
 
     def is_empty(self):
-        return self.item == []
+        return self.items == []
 
     def push(self, item):
-        self.item.append(item)
+        self.items.append(item)
 
     def pop(self):
-        self.item.pop()
+        self.items.pop()
 
     def peek(self):
-        return self.item[len(self.item)-1]
+        return self.items[len(self.items) -1]
 
     def size(self):
-        return len(self.item)
-
-
+        return len(self.items)
 
 
 def merge_sort(list):

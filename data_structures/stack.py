@@ -34,6 +34,3 @@ pancake.push('horse')
 print(pancake.peek())
 
 
-
-
-
