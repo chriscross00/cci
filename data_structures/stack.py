@@ -13,10 +13,13 @@ class Stack():
 		self.items.append(item)
 	
 	def pop(self):
-		return self.items.pop()
+		if self.is_empty():
+			return None
+		else:
+			self.items.pop()
 
 	def peek(self):
-		return self.items[len(self.items)-1]
+		return self.items[-1]
 	
 	def size(self):
 		return len(self.items)
@@ -30,6 +33,8 @@ pancake.push('dog')
 pancake.push('cat')
 pancake.push('rabbit')
 pancake.push('horse')
+
+pancake.pop()
 
 print(pancake.peek())
 
