@@ -42,31 +42,5 @@ def bs(list, val):
     return False
 
 
-class Stack():
 
-    def __init__(self):
-        self.items = []
-
-    def push(self, item):
-        self.items.append(item)
-
-    def pop(self):
-        self.items.pop()
-
-    def peek(self):
-        return self.items[len(self.items)-1]
-
-    def size (self):
-        return len(self.items)
-
-    def is_empty(self):
-        return self.items == []
-
-kol = Stack()
-
-kol.push('fire')
-kol.push('small')
-
-print(kol.peek())
-print(kol.is_empty())
 
