@@ -1,5 +1,6 @@
 # https://interactivepython.org/courselib/static/pythonds/Graphs/Implementation.html
 
+
 class Vertex:
 
     def __init__(self, key):
@@ -50,9 +51,9 @@ class Graph:
 # with a associated cost.
     def add_edge(self, f, t, weight):
         if f not in self.vertex_list:
-            nv = self.add_vertex(f)
+            self.add_vertex(f)
         if t not in self.vertex_list:
-            nv = self.add_vertex(t)
+            self.add_vertex(t)
         self.vertex_list[f].add_nbr(self.vertex_list[t], weight)
 
 # returns all the vertices in the graph
@@ -79,4 +80,8 @@ test1.add_edge(4, 0, 1)
 test1.add_edge(5, 4, 8)
 test1.add_edge(5, 2, 1)
 
-print(test1.get_vertex(0))
+
+for vertex in test1:
+    for i in vertex.get_connections():
+        print('(%s, %s)' %(vertex.get_id(), i.get_id()))
+
