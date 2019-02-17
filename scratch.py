@@ -1,22 +1,42 @@
 a = [87,42,32,52,90,22,74,25,90]
+b = [29, 5, 24, 9, 55, 83, 2, 0, 1, -1, 5, 90, 42]
 
+def merge_sort(arr):
 
-def binarysearch(list, val):
+    if len(arr) > 1:
+        mid = len(arr)//2
+        l_arr = arr[:mid]
+        r_arr = arr[mid:]
 
-    lo, hi = 0, len(list)-1
-    while lo <= hi:
-        mid = (lo+hi)//2
-        if list[mid]<val:
-            lo = mid+1
-        elif val<list[mid]:
-            hi = mid-1
+        merge_sort(l_arr)
+        merge_sort(r_arr)
+        merge(l_arr, r_arr, arr)
+    return arr
+
+def merge(l_arr, r_arr, out):
+    l = r = i = 0
+
+    while l < len(l_arr) and r < len(r_arr):
+        if l_arr[l] < r_arr[r]:
+           out[i] = l_arr[l]
+           l += 1
+           i += 1
         else:
-            return True
+            out[i] = r_arr[r]
+            r += 1
+            i += 1
+    while l < len(l_arr):
+        out[i] = l_arr[l]
+        l += 1
+        i += 1
+    while r < len(r_arr):
+        out[i] = r_arr[r]
+        r += 1
+        i += 1
+    return out
 
-    return False
 
-
-
+print(merge_sort(b))
 
 def bubble(list):
 
@@ -32,8 +52,8 @@ class Vertex:
         self.id = key
         self.connected_to = {}
 
-    def add_nbr(self, nbr, weight=0):
-        self.connected_to[nbr] = weight
+    def add_nbr(self, key, weight):
+        self.connected_to[key] = weight
 
     def get_connections(self):
         return self.connected_to.keys()
@@ -41,23 +61,11 @@ class Vertex:
     def get_id(self):
         return self.id
 
+
 class Graph:
     def __init__(self):
         self.vertex_list = {}
         self.num_vertices = 0
-
-    def add_vertex(self, key):
-        self.vertex_list[key] = Vertex(key)
-        self.num_vertices += 1
-
-    def get_vertex(self, i):
-        if i in self.vertex_list:
-            return self.vertex_list[i]
-        else:
-            return None
-
-    def __contains__(self, i):
-        return i in self.vertex_list.keys()
 
     def add_edge(self, f, t, weight):
         if f not in self.vertex_list:
@@ -66,11 +74,13 @@ class Graph:
             self.add_vertex(t)
         self.vertex_list[f].add_nbr(self.vertex_list[t], weight)
 
+    def add_vertex(self, key):
+        self.vertex_list[key] = Vertex(key)
+        self.num_vertices += 1
+
     def __iter__(self):
         return iter(self.vertex_list.values())
 
-    def get_vertices(self):
-        return self.vertex_list.keys()
 
 test1 = Graph()
 
@@ -89,6 +99,3 @@ test1.add_edge(5, 4, 8)
 test1.add_edge(5, 2, 1)
 
 
-for vertex in test1:
-    for i in vertex.get_connections():
-        print('(%s, %s)' %(vertex.get_id(), i.get_id()))

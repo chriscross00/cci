@@ -80,8 +80,35 @@ test1.add_edge(4, 0, 1)
 test1.add_edge(5, 4, 8)
 test1.add_edge(5, 2, 1)
 
-
+"""
 for vertex in test1:
     for i in vertex.get_connections():
         print('(%s, %s)' %(vertex.get_id(), i.get_id()))
+"""
 
+# Adjacency list
+# Without weights
+
+adj_dict = {}
+
+adj_dict[0] = [1,5]
+adj_dict[1] = [2]
+adj_dict[2] = [3]
+adj_dict[3] = [4,5]
+adj_dict[4] = [0]
+adj_dict[5] = [2,4]
+
+
+# With weights
+
+adj_dict_w = {}
+
+adj_dict_w[0] = {1:5, 5:2}
+adj_dict_w[1] = {2:4}
+adj_dict_w[2] = {3:4}
+adj_dict_w[3] = {4:7, 5:3}
+adj_dict_w[4] = {0:1}
+adj_dict_w[5] = {2:1, 4:8}
+
+for i in adj_dict_w:
+    print(i, adj_dict_w[i])
