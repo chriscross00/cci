@@ -36,7 +36,40 @@ def merge(l_arr, r_arr, out):
     return out
 
 
-print(merge_sort(b))
+def dfs(graph, start):
+
+    path, stack = [],[start]
+
+    while stack:
+        vertex = stack.pop()
+        if vertex in path:
+            continue
+        path.append(vertex)
+        for nbr in graph[vertex]:
+            stack.append(nbr)
+    return path
+
+def bfs(graph, start):
+    queue, path = [start], []
+
+    while queue:
+        vertex = queue.pop(0)
+        path.append(vertex)
+        for nbr in graph[vertex]:
+            if nbr not in path:
+                queue.append(nbr)
+    return path
+
+graph = {}
+
+graph[0] = [1,5]
+graph[1] = [2]
+graph[2] = [3]
+graph[3] = [4,5]
+graph[4] = [0]
+graph[5] = [2,4]
+
+print(bfs(graph, 0))
 
 def bubble(list):
 
@@ -82,20 +115,5 @@ class Graph:
         return iter(self.vertex_list.values())
 
 
-test1 = Graph()
-
-for i in range(6):
-    test1.add_vertex(i)
-    print('Adding vertice: ' + str(i))
-
-test1.add_edge(0, 1, 5)
-test1.add_edge(0, 5, 2)
-test1.add_edge(1, 2, 4)
-test1.add_edge(2, 3, 9)
-test1.add_edge(3, 4, 7)
-test1.add_edge(3, 5, 3)
-test1.add_edge(4, 0, 1)
-test1.add_edge(5, 4, 8)
-test1.add_edge(5, 2, 1)
 
 

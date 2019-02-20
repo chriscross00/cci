@@ -35,7 +35,6 @@ def bfs(graph, start):
                 queue.append(i)
                 visited.append(i)
                 levels[i] = levels[node]+1
-    print(levels)
     return explored
 
-bfs(graph, 0)
+print(bfs(graph, 0))

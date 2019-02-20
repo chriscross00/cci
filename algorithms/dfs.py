@@ -1,11 +1,21 @@
 # https://eddmann.com/posts/depth-first-search-and-breadth-first-search-in-python/
-
+"""
 graph = {'A': set(['B', 'C']),
          'B': set(['A', 'D', 'E']),
          'C': set(['A', 'F']),
          'D': set(['B']),
          'E': set(['B', 'F']),
          'F': set(['C', 'E'])}
+"""
+
+graph = {}
+
+graph[0] = [1,5]
+graph[1] = [2]
+graph[2] = [3]
+graph[3] = [4,5]
+graph[4] = [0]
+graph[5] = [2,4]
 
 adjacency_matrix = {1: [2, 3], 2: [4, 5],
                     3: [5], 4: [6], 5: [6],
@@ -70,4 +80,4 @@ def test(graph, start):
             stack.append(neighbor)
     return path
 
-print(test(graph, 'A'))
+print(test(graph, 0))
