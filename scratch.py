@@ -1,39 +1,49 @@
 a = [87,42,32,52,90,22,74,25,90]
 b = [29, 5, 24, 9, 55, 83, 2, 0, 1, -1, 5, 90, 42]
 
+
 def merge_sort(arr):
 
     if len(arr) > 1:
         mid = len(arr)//2
+
         l_arr = arr[:mid]
         r_arr = arr[mid:]
 
         merge_sort(l_arr)
         merge_sort(r_arr)
         merge(l_arr, r_arr, arr)
+
     return arr
 
-def merge(l_arr, r_arr, out):
+def merge(l_arr, r_arr, output):
+
     l = r = i = 0
 
     while l < len(l_arr) and r < len(r_arr):
-        if l_arr[l] < r_arr[r]:
-           out[i] = l_arr[l]
-           l += 1
-           i += 1
+        if l_arr[l] <= r_arr[r]:
+            output[i] = l_arr[l]
+            l += 1
         else:
-            out[i] = r_arr[r]
+            output[i] = r_arr[r]
             r += 1
-            i += 1
+        i += 1
+
     while l < len(l_arr):
-        out[i] = l_arr[l]
+        output[i] = l_arr[l]
         l += 1
         i += 1
     while r < len(r_arr):
-        out[i] = r_arr[r]
+        output[i] = r_arr[r]
         r += 1
         i += 1
-    return out
+
+    return output
+
+
+print(merge_sort(a))
+
+
 
 
 def dfs(graph, start):
