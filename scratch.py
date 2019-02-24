@@ -1,73 +1,62 @@
 a = [87,42,32,52,90,22,74,25,90]
 b = [29, 5, 24, 9, 55, 83, 2, 0, 1, -1, 5, 90, 42]
 
-
-def merge_sort(arr):
-
-    if len(arr) > 1:
-        mid = len(arr)//2
-
-        l_arr = arr[:mid]
-        r_arr = arr[mid:]
-
-        merge_sort(l_arr)
-        merge_sort(r_arr)
-        merge(l_arr, r_arr, arr)
-
-    return arr
-
-def merge(l_arr, r_arr, output):
-
-    l = r = i = 0
-
-    while l < len(l_arr) and r < len(r_arr):
-        if l_arr[l] <= r_arr[r]:
-            output[i] = l_arr[l]
-            l += 1
-        else:
-            output[i] = r_arr[r]
-            r += 1
-        i += 1
-
-    while l < len(l_arr):
-        output[i] = l_arr[l]
-        l += 1
-        i += 1
-    while r < len(r_arr):
-        output[i] = r_arr[r]
-        r += 1
-        i += 1
-
-    return output
-
-
-print(merge_sort(a))
-
-
+# dfs stack
+# bfs queue
 
 
 def dfs(graph, start):
 
-    path, stack = [],[start]
-
+    path = []
+    stack = [start]
+    levels = {start:0}
     while stack:
         vertex = stack.pop()
+
         if vertex in path:
             continue
         path.append(vertex)
         for nbr in graph[vertex]:
             stack.append(nbr)
+            levels[nbr] = levels[vertex] + 1
+
+    print(levels)
     return path
 
+
+def bfs2(graph, start):
+
+    path, queue = [], [start]
+
+    levels = {start:0}
+    while queue:
+        vertex = queue.pop(0)
+
+        if vertex not in path:
+            path.append(vertex)
+            queue.extend(graph[vertex])
+
+    return path
+
+
+
+
 def bfs(graph, start):
-    queue, path = [start], []
+
+    path, visited, queue = [], [],[start]
+    levels = {start:0}
 
     while queue:
         vertex = queue.pop(0)
         path.append(vertex)
+
         for nbr in graph[vertex]:
-            if nbr not in path:
+            if nbr not in visited:
                 queue.append(nbr)
+                visited.append(nbr)
+
+                levels[nbr] = levels[vertex] + 1
+    print(levels)
     return path
 
 graph = {}
@@ -79,7 +68,13 @@ graph[3] = [4,5]
 graph[4] = [0]
 graph[5] = [2,4]
 
-print(bfs(graph, 0))
+print(bfs2(graph, 0))
+
+
+
+
+
+
 
 def bubble(list):
 

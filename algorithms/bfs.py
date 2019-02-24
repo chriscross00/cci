@@ -28,13 +28,15 @@ def bfs(graph, start):
         # Adding the shallowest node to the queue
         node = queue.pop(0)
         explored.append(node)
-        nbr = graph[node]
 
-        for i in nbr:
-            if i not in visited:
-                queue.append(i)
-                visited.append(i)
-                levels[i] = levels[node]+1
+
+        for nbr in graph[node]:
+            if nbr not in visited:
+                queue.append(nbr)
+                visited.append(nbr)
+                levels[nbr] = levels[node]+1
+
+    print(levels)
     return explored
 
 print(bfs(graph, 0))
