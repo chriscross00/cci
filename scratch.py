@@ -72,53 +72,43 @@ print(bfs2(graph, 0))
 
 
 
+class binary_heap:
 
-
-
-
-def bubble(list):
-
-    for i in range(len(list)-1, 0, -1):
-        for j in range(i):
-            if list[j] > list[j+1]:
-                list[j], list[j+1] = list[j+1], list[j]
-
-    return list
-
-class Vertex:
-    def __init__(self, key):
-        self.id = key
-        self.connected_to = {}
-
-    def add_nbr(self, key, weight):
-        self.connected_to[key] = weight
-
-    def get_connections(self):
-        return self.connected_to.keys()
-
-    def get_id(self):
-        return self.id
-
-
-class Graph:
     def __init__(self):
-        self.vertex_list = {}
-        self.num_vertices = 0
+        self.heap = [0]
+        self.size = 0
 
-    def add_edge(self, f, t, weight):
-        if f not in self.vertex_list:
-            self.add_vertex(f)
-        if t not in self.vertex_list:
-            self.add_vertex(t)
-        self.vertex_list[f].add_nbr(self.vertex_list[t], weight)
+    def bubble_up(self, i):
+        while i//2>0:
+           if self.heap[i] < self.heap[i//2]:
+               self.heap[i], self.heap[i//2] = self.heap[i//2], self.heap[i]
+           i = i//2
 
-    def add_vertex(self, key):
-        self.vertex_list[key] = Vertex(key)
-        self.num_vertices += 1
+    def bubble_down(self, i):
+        while i * 2 <= self.size:
+            mc = self.min_child(i)
+            if self.heap[i] > self.heap(mc):
+                self.heap[i], self.heap[mc] = self.heap[mc], self.heap[i]
+            i = mc
 
-    def __iter__(self):
-        return iter(self.vertex_list.values())
+    def min_child(self, i):
+        if i*2+1 > self.size:
+            return i*2
+        else:
+            if self.heap[i*2] < self.heap[i*2+1]:
+                return i*2
+            else:
+                return i*2+1
 
+    def build(self, list):
+        i = len(list)//2
+        self.size = len(list)
+        self.heap = [0] + list[:]
+        while i >0:
+            self.bubble_down(i)
+            i-= 1
 
-
-
+    def insert(self, k):
+        self.heap.append(k)
+        self.size += 1
+        self.bubble_up(self.size)
