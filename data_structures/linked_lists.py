@@ -1,10 +1,13 @@
 # https://www.codefellows.org/blog/implementing-a-singly-linked-list-in-python/
+# READ THIS https://www.greenteapress.com/thinkpython/thinkCSpy/html/chap17
+# .html
 
 # creating the class Node
 
+
 class Node:
 
-    def __init__(self, data, next = None):
+    def __init__(self, data, next=None):
         self.data = data
         self.next = next
 
@@ -33,7 +36,7 @@ class LinkedList:
         return self.size
 
     def is_empty(self):
-        return self.head == None
+        return self.head is None
 
     def add(self, item):
         temp = Node(item)
@@ -73,6 +76,11 @@ class LinkedList:
         else:
             previous.set_next(current.get_next())
 
+    def print_list(self):
+        current = self.head
+        while current is not None:
+            print(current.get_data())
+            current = current.get_next()
 
 
 mylist = LinkedList()
@@ -85,10 +93,6 @@ mylist.add(93)
 mylist.add(26)
 mylist.add(54)
 
-print(mylist.search(54))
-mylist.remove(54)
-print(mylist.search(54))
-
-
+mylist.print_list()
 
 

@@ -22,10 +22,12 @@ Approaches:
 """
 
 
-
 def replace(string):
-    for i in string:
-        if i == " ":
+    for index, strl in enumerate(string):
+        if strl == " ":
+            string[index] = '%20'
+    return string
+
 
 
 
@@ -33,4 +35,3 @@ test = 'ab cd'
 
 print(replace(test))
 # print(test.replace(' ', '%20'))
-
