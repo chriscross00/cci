@@ -1,10 +1,12 @@
-#creating the class Node
-class Node():
+# https://www.codefellows.org/blog/implementing-a-singly-linked-list-in-python/
+
+# creating the class Node
+
+class Node:
 
     def __init__(self, data, next = None):
         self.data = data
         self.next = next
-
 
     def get_data(self):
         return self.data
@@ -19,8 +21,8 @@ class Node():
         self.next = val
 
 
-#Class linked list
-class Linked_List():
+# Class linked list
+class LinkedList:
 
     def __init__(self):
         self.head = None
@@ -28,12 +30,7 @@ class Linked_List():
         self.size = 0
 
     def get_size(self):
-        current  = self.head
-        count = 0
-        while current != None:
-            count += 1
-            current = current.get_next()
-        return count
+        return self.size
 
     def is_empty(self):
         return self.head == None
@@ -42,11 +39,12 @@ class Linked_List():
         temp = Node(item)
         temp.set_next(self.head)
         self.head = temp
+        self.size += 1
 
     def search(self, item):
         current = self.head
         found = False
-        while current != None and not found:
+        while current is not None and not found:
             if current.get_data() == item:
                 found = True
             else:
@@ -54,24 +52,30 @@ class Linked_List():
 
         return found
 
-
     def remove(self, item):
+        # Setting up our pointers
         current = self.head
+        previous = None
         found = False
+        # The search function
         while not found:
             if current.get_data() == item:
                 found = True
+                self.size -= 1
             else:
                 previous = current
                 current = current.get_next()
-        if previous == None:
+        # Once item is found break to this if-else statement which 'leap
+        # frogs' the item node, connecting the previous node to the node
+        # after current.
+        if previous is None:
             self.head = current.get_next()
         else:
             previous.set_next(current.get_next())
-        return
 
 
-mylist = Linked_List()
+
+mylist = LinkedList()
 
 
 mylist.add(31)
@@ -81,9 +85,9 @@ mylist.add(93)
 mylist.add(26)
 mylist.add(54)
 
-
-print(mylist.remove(100))
-
+print(mylist.search(54))
+mylist.remove(54)
+print(mylist.search(54))
 
 
 
