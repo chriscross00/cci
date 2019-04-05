@@ -22,16 +22,25 @@ Approaches:
 """
 
 
+<<<<<<< HEAD
 
 def own_replace(string):
     for i in string:
         if i == " ":
             i = '%20'
     return string
+=======
+def replace(string):
+    for index, strl in enumerate(string):
+        if strl == " ":
+            string[index] = '%20'
+    return string
+
+
+>>>>>>> a02cde34b96f1c301af8db3c89f4bdf7b58f689f
 
 
 test = 'ab cd'
 
 print(own_replace(test))
 # print(test.replace(' ', '%20'))
-

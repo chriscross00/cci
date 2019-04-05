@@ -68,12 +68,88 @@ graph[3] = [4,5]
 graph[4] = [0]
 graph[5] = [2,4]
 
-print(bfs2(graph, 0))
 
 
+<<<<<<< HEAD
 def merge_sort:
+=======
+class Node:
+>>>>>>> a02cde34b96f1c301af8db3c89f4bdf7b58f689f
+
+    def __init__(self, data, next=None):
+        self.data = data
+        self.next = next
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_data(self):
+        return self.data
+
+    def set_next(self, val):
+        self.next = val
+
+<<<<<<< HEAD
+=======
+    def get_next(self):
+        return self.next
+
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+
+    def add(self, data):
+        new_node = Node(data)
+        new_node.set_next(self.head)
+        self.head = new_node
+        self.size += 1
+
+    def remove(self, val):
+        current = self.head
+        previous = None
+        found = False
+        while not found:
+            if current.get_data() == val:
+                found = True
+                self.size -= 1
+            else:
+                previous = current
+                current = current.get_next()
+        if previous is None:
+            self.head = current.get_next()
+        else:
+            previous.set_next(current.get_next())
+
+    def search(self, val):
+        current = self.head
+        found = False
+        while not found and current is not None:
+            if current.get_data() == val:
+                found = True
+            else:
+                current = current.get_next()
+
+        return found
+
+    def get_size(self):
+        return self.size
+
+ll = LinkedList()
+
+print(ll.get_size())
+
+ll.add(2)
+ll.add(3)
+ll.add(7)
+ll.add(5)
+ll.add(9)
+ll.add(8)
 
 
 
 
-
+>>>>>>> a02cde34b96f1c301af8db3c89f4bdf7b58f689f

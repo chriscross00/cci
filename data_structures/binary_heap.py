@@ -55,7 +55,7 @@ class bin_heap:
         i = len(list)//2
         self.size = len(list)
         self.heap = [0] + list[:]
-        while (i>0):
+        while i>0:
             self.bubble_down(i)
             i -= 1
 
