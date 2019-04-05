@@ -71,53 +71,8 @@ graph[5] = [2,4]
 print(bfs2(graph, 0))
 
 
+def merge_sort:
 
-
-
-
-
-def bubble(list):
-
-    for i in range(len(list)-1, 0, -1):
-        for j in range(i):
-            if list[j] > list[j+1]:
-                list[j], list[j+1] = list[j+1], list[j]
-
-    return list
-
-class Vertex:
-    def __init__(self, key):
-        self.id = key
-        self.connected_to = {}
-
-    def add_nbr(self, key, weight):
-        self.connected_to[key] = weight
-
-    def get_connections(self):
-        return self.connected_to.keys()
-
-    def get_id(self):
-        return self.id
-
-
-class Graph:
-    def __init__(self):
-        self.vertex_list = {}
-        self.num_vertices = 0
-
-    def add_edge(self, f, t, weight):
-        if f not in self.vertex_list:
-            self.add_vertex(f)
-        if t not in self.vertex_list:
-            self.add_vertex(t)
-        self.vertex_list[f].add_nbr(self.vertex_list[t], weight)
-
-    def add_vertex(self, key):
-        self.vertex_list[key] = Vertex(key)
-        self.num_vertices += 1
-
-    def __iter__(self):
-        return iter(self.vertex_list.values())
 
 
 

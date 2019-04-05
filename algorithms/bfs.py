@@ -9,6 +9,25 @@ graph[3] = [4,5]
 graph[4] = [0]
 graph[5] = [2,4]
 
+
+
+# This is a modified bfs that is written much more like the dfs. Use this instead.
+def bfs(dict, start):
+
+	queue, path = [start], []
+	levels = {start: 0}
+	
+	while queue:
+		vertex = queue.pop(0)
+		if vertex in path:
+			continue
+		path.append(vertex)
+		for nbr in graph[vertex]:
+			queue.append(nbr)
+			if nbr not in levels:
+				levels[nbr] = levels[vertex] + 1 
+	return path, levels
+
 # Visit all the nodes of a graph from the starting node
 def bfs(graph, start):
 
@@ -40,3 +59,7 @@ def bfs(graph, start):
     return explored
 
 print(bfs(graph, 0))
+
+
+
+

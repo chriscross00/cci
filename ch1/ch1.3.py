@@ -23,14 +23,15 @@ Approaches:
 
 
 
-def replace(string):
+def own_replace(string):
     for i in string:
         if i == " ":
-
+            i = '%20'
+    return string
 
 
 test = 'ab cd'
 
-print(replace(test))
+print(own_replace(test))
 # print(test.replace(' ', '%20'))
 

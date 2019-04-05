@@ -17,19 +17,19 @@ Approaches:
 def compress(string):
 
     results = ''
-    count = 1
+    count = 0
 
-    for i in range(len(string)-1):
-        if string[i] == string[i+1] and i+1 < len(string):
-            count += 1
-        else:
+    for i in range(len(string)):
+        count += 1
+        if i+1 >= len(string) or string[i] != string[i+1]:
             results += string[i]
             results += str(count)
-            count = 1
+            count = 0
 
     return results
 
 
-test1 = 'aabcc'
+test1 = 'aabcccd'
 
 print(compress(test1))
+
