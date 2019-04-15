@@ -24,3 +24,35 @@ def solution(str, set):
 	
 	# return
 	return best_score
+	
+	
+def bracket_solution(str):
+
+	stack = []
+	
+	for letter in str:
+		if open_bracket(letter):
+			stack.append(letter):
+			
+		elif closed_bracket(letter):
+			if len(stack) == 0:
+				return False
+			temp = stack.pop()
+			if not matches(temp, letter):
+				return False
+				
+	return len(stack) == 0
+			
+			
+def open_bracket(letter):
+	return letter in ('[', '{', '(')
+	
+def closed_bracket(letter):
+	return letter in (']', '}', ')')
+	
+	
+def matches(open, close):
+	match_dict = {'{': '}', '[': ']', '(': ')'}
+	return match_dict[open] == close
+	
+	
