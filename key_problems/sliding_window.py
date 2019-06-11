@@ -23,7 +23,7 @@ def solution(string, char_set):
 	best_score = float('inf')
 	
 	# Finding all characters in char_set 
-	while left < len(string) and right < len(string):
+	while right < len(string):
 		letter_map[string[right]] = letter_map.get(string[right], 0) + 1
 		if letter_map[string[right]] == 1 and string[right] in char_set:
 			char_encountered += 1
