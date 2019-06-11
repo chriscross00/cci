@@ -37,7 +37,7 @@ def solution(string, char_set):
 					char_encountered -= 1
 				left += 1
 			best_score = min(best_score, right - left + 1)
-	return best_score
+	return best_score, string[left-1 : right]
 
 	
 print(solution("adddddbcbba", {'a','b','c'}))
