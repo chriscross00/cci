@@ -73,9 +73,9 @@ def closed_bracket(letter):
     return letter in [')', '}', ']']
 
 
-def matches(open, close):
+def matches(open_bracket, close_bracket):
     bracket_dict = {'(': ')', '{': '}', '[': ']'}
-    return bracket_dict[open] == close
+    return bracket_dict[open_bracket] == close_bracket
 
 
 print(balanced_solution("(3+9{12+4})(25)")) # true

@@ -10,6 +10,9 @@
 # 
 # Time: O(n)
 # Space: n
+# https://www.geeksforgeeks.org/merging-intervals/
+# https://www.leetfree.com/problems/non-overlapping-intervals.html
+# https://www.glassdoor.com/Interview/Recently-I-attended-the-interview-at-Google-and-I-was-asked-You-are-given-a-sorted-list-of-disjoint-intervals-and-an-inter-QTN_345488.htm
 
 
 def solution(string):
