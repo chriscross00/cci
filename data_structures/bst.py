@@ -48,13 +48,15 @@ class BST:
         else:
             return self.find_node(current.right_child, val)
 
-    def inorder(self):
-        if self.root:
-            self.inorder(self.root.left_child)
-            print(self.root.val)
-            self.inorder(self.root.right_child)
-            print('test')
+    def inorder(self, node):
+        if node:
+            self.inorder(node.left_child)
+            print(node.val)
+            self.inorder(node.right_child)
 
+    def test(self):
+        print('inorder')
+        self.inorder(self.root)
 
 r = BST()
 r.insert(50)
@@ -65,5 +67,5 @@ r.insert(70)
 r.insert(60)
 r.insert(80)
 
-print(r.inorder())
+r.test()
 
