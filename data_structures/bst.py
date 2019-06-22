@@ -55,6 +55,7 @@ class BST:
         print('inorder')
         self.inorder_helper(self.root)
 
+
 r = BST()
 r.insert(50)
 r.insert(30)
