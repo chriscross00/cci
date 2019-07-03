@@ -1,58 +1,36 @@
-def solution(str, set):
+# given a string, check if brackets are balanced
+# Stack: LIFO
+# 1. initialize stack
+# 2. iterate through string
+# 3. if char in open_bracket dict, push to stack
+# 4. if char is in closed_bracket dict, pop from stack
+# 5. compare to
 
-	# variables
-	left, right = 0, 0
-	letter_map = {}
-	char_encountered = 0
-	best_score = float('inf')
-	
-	# large set
-	while left < len(str) and right < len(str):
-		letter_map[str[right]] = letter_map.get(str[right], 0) + 1
-		if letter_map[str[right]] == 1 and str[right] in char_set:
-			char_encountered += 1
-		right += 1
-		# min set
-		if len(letter_map) == char_encountered:
-			while len(letter_map) == char_encountered:
-				letter_map[str[left]] -= 1
-				if letter_map[str[left]] == 0 and str[left] in char_set:
-					char_encountered -= 1
-				left += 1
-			# best_score
-			best_score = min(best_score, right - left + 1)
-	
-	# return
-	return best_score
-	
-	
-def bracket_solution(str):
+
+def solution(string):
 
 	stack = []
-	
-	for letter in str:
-		if open_bracket(letter):
-			stack.append(letter):
-			
-		elif closed_bracket(letter):
+	open_bracket = ['[', '{', '(']
+	closed_bracket = [']', '}', ')']
+
+	for char in string:
+		if char in open_bracket:
+			stack.append(char)
+		elif char in closed_bracket:
 			if len(stack) == 0:
 				return False
 			temp = stack.pop()
-			if not matches(temp, letter):
+			if not bracket_match(temp, char):
 				return False
-				
+
 	return len(stack) == 0
-			
-			
-def open_bracket(letter):
-	return letter in ('[', '{', '(')
-	
-def closed_bracket(letter):
-	return letter in (']', '}', ')')
-	
-	
-def matches(open, close):
-	match_dict = {'{': '}', '[': ']', '(': ')'}
-	return match_dict[open] == close
-	
-	
+
+
+def bracket_match(open, close):
+
+	mapper = {'{': '}', '[': ']', '(': ')'}
+	return mapper[open] == close
+
+
+print(solution("(3+9{12+4})(25)"))  # true
+print(solution("3+9{12+4})(25)"))  # false
